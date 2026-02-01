@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>svg drawing</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 20px;
+    }
+    svg {
+      border: 1px solid #000;
+      background: #fff;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h3>svg drawing</h3>
+
+<svg id="draw" width="600" height="400"></svg>
+
+<script>
+  const svg = document.getElementById("draw");
+  let drawing = false;
+  let line = null;
+
+  svg.addEventListener("mousedown", e => {
+    drawing = true;
+    const x = e.offsetX;
+    const y = e.offsetY;
+
+    line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    line.setAttribute("fill", "none");
+    line.setAttribute("stroke", "black");
+    line.setAttribute("stroke-width", "2");
+    line.setAttribute("points", `${x},${y}`);
+    svg.appendChild(line);
+  });
+
+  svg.addEventListener("mousemove", e => {
+    if (!drawing) return;
+    const x = e.offsetX;
+    const y = e.offsetY;
+
+    const pts = line.getAttribute("points");
+    line.setAttribute("points", pts + ` ${x},${y}`);
+  });
+
+  svg.addEventListener("mouseup", () => drawing = false);
+  svg.addEventListener("mouseleave", () => drawing = false);
+</script>
+
+</body>
+</html>
